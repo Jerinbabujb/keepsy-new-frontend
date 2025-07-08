@@ -25,7 +25,7 @@ const navigate=useNavigate();
   }
 
   const gotoKeepsy=()=>{
-    window.location.href="https://keepsy.onrender.com/";
+    navigate('/dashboard');
   }
 
   const handleSendImage= async (e)=>{
@@ -89,9 +89,9 @@ const navigate=useNavigate();
           <label htmlFor='image'><img src={assets.gallery_icon} alt='' className='w-5 mr-2 cursor-pointer'/></label>
         </div>
         <img src={assets.send_button} onClick={handleSendMessage} alt='' className='w-7 cursor-pointer'/>
-        <a href='https://keepsy.onrender.com/' target='_blank'>
-          <img src='/assets/gift-box.png'alt='gift box'className='w-8 h-auto rounded-full cursor-pointer'/>
-          </a>
+      
+          <img src='/assets/gift-box.png' onClick={gotoKeepsy} alt='gift box'className='w-8 h-auto rounded-full cursor-pointer'/>
+      
       </div>
     
     </div>
