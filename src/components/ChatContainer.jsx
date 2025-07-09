@@ -5,11 +5,14 @@ import { ChatContext } from '../../context/ChatContext';
 import { AuthContext } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import RightSideBar from './RightSideBar';
 
 const ChatContainer = () => {
 
   const {messages,selectedUser,setSelectedUser,sendMessage,getMessages}=useContext(ChatContext);
   const {authUser, onlineUsers}=useContext(AuthContext);
+  const [showRightSideBar, setShowRightSideBar] = useState(false);
+
 
   const scrollEnd= useRef();
 
@@ -23,6 +26,10 @@ const navigate=useNavigate();
       await sendMessage({text: input.trim()})
       setInput('');
   }
+const toggleRightSideBar = () => {
+  setShowRightSideBar((prev) => !prev);
+};
+
 
   const gotoKeepsy=()=>{
     navigate('/dashboard');
@@ -62,8 +69,9 @@ const navigate=useNavigate();
           <span className='w-2 h-2 rounded-full bg-green-500'></span>}
           </p>
           <img onClick={()=>setSelectedUser(null)} src={assets.arrow_icon} alt='' className='md:hidden max-w-7'></img>
-          <img src={assets.help_icon} alt='' className='max-md:hidden max-w-5 cursor-pointer' />
+          <img onClick={toggleRightSideBar} src={assets.help_icon} alt='' className='max-md:hidden max-w-5 cursor-pointer' />
       </div>
+      
       <div className='flex-1 overflow-y-auto p-3 pb-24 h-120'>
         {messages.map((msg,index)=>(
           <div key={index} className={`flex items-end gap-2 justify-end ${msg.senderId !==authUser._id && 'flex-row-reverse'}`}>

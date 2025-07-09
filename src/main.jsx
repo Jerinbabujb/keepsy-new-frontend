@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from '../context/AuthContext';
 import { ChatProvider } from '../context/ChatContext.jsx';
+import { ItemProvider } from '../context/ItemContext.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -16,7 +17,9 @@ createRoot(document.getElementById('root')).render(
       
     <AuthProvider>
       <ChatProvider>
+        <ItemProvider>
     <App />
+    </ItemProvider>
     </ChatProvider>
     </AuthProvider>
   </StrictMode>,

@@ -1,33 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ItemContext } from "../../context/ItemContext";
 
 const Recieve = () => {
   const [code, setCode] = React.useState("");
   const [item, setItem] = React.useState("");
   const [location, setLocation] = React.useState("");
 
+  const {recieveItem}= useContext(ItemContext)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { code };
 
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}api/receive`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
-      const result = await response.json();
-      setItem(result.item?.item);
-      setLocation(result.item?.location);
-    } catch (error) {
-      alert("Failed to receive code. Please try again.");
-      console.error("Error:", error);
+    const result=await recieveItem({code});
+    if(result){
+    setItem(result.item);
+    setLocation(result.location);
     }
+    console.log("backend",result);
+    console.log("item",result.item.item);
   };
 
   return (
@@ -76,11 +65,12 @@ const Recieve = () => {
             <strong>Item:</strong> {item}
           </p>
         )}
-        {location && (
+        {location ? (
           <p className="mt-2 text-lg text-[#e0e0e0]">
             <strong>Location:</strong> {location}
           </p>
-        )}
+        ):    (        <p><strong>Location:</strong> not disclosed </p>
+)}
       </form>
     </div>
   );

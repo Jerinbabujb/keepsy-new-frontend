@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ItemContext } from "../../context/ItemContext";
+import toast from "react-hot-toast";
 
 const CodeGenerator = () => {
   const [code, setCode] = useState('');
@@ -6,6 +8,9 @@ const CodeGenerator = () => {
   const [location, setLocation] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
+
+
+  const {sendItem}= useContext(ItemContext);
   // Load item & location from localStorage
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("sendData"));
@@ -14,33 +19,23 @@ const CodeGenerator = () => {
       setLocation(storedData.location);
     }
   }, []);
+ const randomeCodeGeneration=()=>{
+    return Math.random().toString(36).substring(2, 8); // Generate a random code
+ }
+  const handleSubmit=()=>{
+     if(!item){
+      alert("enter the item first")
+     }
+     setButtonDisabled(true);
+     const randcode=randomeCodeGeneration();
 
-  const handleSubmit = async () => {
-    if (!item) return alert("Item data not found!");
+        setCode(randcode); // Set the code state
+  
 
-    setButtonDisabled(true);
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/send`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ item, location })
-      });
+  sendItem({item,location,code:randcode});
+  setButtonDisabled(false);
+  }
 
-      const result = await response.json();
-      if (result?.code) {
-        setCode(result.code);
-      } else {
-        alert("Failed to generate code.");
-      }
-    } catch (error) {
-      console.error("Error generating code:", error);
-      alert("Something went wrong.");
-    } finally {
-      setButtonDisabled(false);
-    }
-  };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen p-10 text-center backdrop-blur-md bg-gradient-to-br from-[#0f0f0f] to-[#2c003e] text-white font-sans">
