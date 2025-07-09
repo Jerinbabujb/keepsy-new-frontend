@@ -65,12 +65,11 @@ const Recieve = () => {
             <strong>Item:</strong> {item}
           </p>
         )}
-        {location ? (
+        {location && (
           <p className="mt-2 text-lg text-[#e0e0e0]">
             <strong>Location:</strong> {location}
           </p>
-        ):    (        <p><strong>Location:</strong> not disclosed </p>
-)}
+        )}
       </form>
     </div>
   );
