@@ -55,6 +55,32 @@ const Send = () => {
           />
         </div>
 
+   <div className="mb-6 text-left">
+  <p className="text-lg font-medium text-[#bb86fc] mb-2">Collection Method</p>
+  
+  <div className="flex items-center mb-2">
+    <input
+      type="radio"
+      id="home"
+      name="collectionMethod"
+      value="home"
+      className="mr-2 accent-[#bb86fc]"
+    />
+    <label htmlFor="home" className="text-white">Collect from home</label>
+  </div>
+
+  <div className="flex items-center">
+    <input
+      type="radio"
+      id="center"
+      name="collectionMethod"
+      value="center"
+      className="mr-2 accent-[#bb86fc]"
+    />
+    <label htmlFor="center" className="text-white">Will bring to delivery center</label>
+  </div>
+</div>
+
         <button
           type="submit"
           className="w-full py-3 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-[#bb86fc] to-[#7a1fa2] cursor-pointer transition-transform duration-200 shadow-[0_4px_15px_rgba(187,134,252,0.4)] hover:scale-105 hover:shadow-[0_6px_25px_rgba(187,134,252,0.6)]"

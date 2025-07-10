@@ -70,6 +70,32 @@ const Recieve = () => {
             <strong>Location:</strong> {location}
           </p>
         )}
+          <div className="mb-6 text-left">
+  <p className="text-lg font-medium text-[#bb86fc] mb-2">Collection Method</p>
+  
+  <div className="flex items-center mb-2">
+    <input
+      type="radio"
+      id="home"
+      name="collectionMethod"
+      value="home"
+      className="mr-2 accent-[#bb86fc]"
+    />
+    <label htmlFor="home" className="text-white">Deliver to home</label>
+  </div>
+
+  <div className="flex items-center">
+    <input
+      type="radio"
+      id="center"
+      name="collectionMethod"
+      value="center"
+      className="mr-2 accent-[#bb86fc]"
+    />
+    <label htmlFor="center" className="text-white">Will come to delivery center</label>
+  </div>
+</div>
+
       </form>
     </div>
   );
