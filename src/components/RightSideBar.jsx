@@ -1,43 +1,75 @@
-import React, { useContext, useEffect, useState } from 'react'
-import assets from '../assets'
-import { ChatContext } from '../../context/ChatContext'
+import React, { useContext, useEffect, useState } from 'react';
+import assets from '../assets';
+import { ChatContext } from '../../context/ChatContext';
 import { AuthContext } from '../../context/AuthContext';
 
 const RightSideBar = () => {
-  const {selectedUser, messages}= useContext(ChatContext);
-  const {logout, onlineUsers}=useContext(AuthContext);
-  const [msgImages,setMsgImges]=useState([]);
+  const { selectedUser, messages } = useContext(ChatContext);
+  const { logout, onlineUsers } = useContext(AuthContext);
+  const [msgImages, setMsgImages] = useState([]);
 
-  useEffect(()=>{
-    setMsgImges(messages.filter(msg=>msg.image).map(msg=>msg.image))
-  },[messages])
+  useEffect(() => {
+    const imgs = messages.filter((msg) => msg.image).map((msg) => msg.image);
+    setMsgImages(imgs);
+  }, [messages]);
 
+  if (!selectedUser) return null;
 
-  return selectedUser && (
-    <div className={`bg-[#8185B2]/10 text-white w-full relative overflow-y-scroll ${selectedUser ? "max-md:hidden" : ""}`}>
-      <div className='pt-6 flex flex-col items-center gap-2 text-xs font-light mx-auto'>
-        <img src={selectedUser?.profilePic ||assets.avatar_icon} alt='' className='w-20 aspect-[1/1] rounded-full'/>
-        <h1 className='px-10 text-xl font-medium mx-auto flex items-center gap-2'>
-          {onlineUsers.includes(selectedUser._id) && <p className='w-2 h-2 rounded-full bg-green-500'></p>} {selectedUser.username}</h1>
-          <p className='px-10 mx-auto'>{selectedUser.bio}</p>
-     
+  return (
+    <div className="bg-black/30 text-white w-full max-w-sm h-full overflow-y-auto shadow-inner backdrop-blur-md max-md:hidden">
+      {/* User Info */}
+      <div className="flex flex-col items-center py-6 space-y-2">
+        <img
+          src={selectedUser?.profilePic || assets.avatar_icon}
+          alt="User"
+          className="w-20 h-20 rounded-full object-cover border border-gray-400"
+        />
+        <h1 className="text-xl font-semibold flex items-center gap-2">
+          {onlineUsers.includes(selectedUser._id) && (
+            <span className="w-2 h-2 bg-green-500 rounded-full" />
+          )}
+          {selectedUser.username}
+        </h1>
+        <p className="text-sm text-gray-400 px-6 text-center">{selectedUser.bio}</p>
       </div>
-           <hr className='border-[#ffffff50] my-4'/>
-          <div className='px-5 text-xs'>
-            <p>Media</p>
-            <div className='mt-2 max-h-[200px] overflow-y-scroll grid grid-cols-2 gap-4 opacity-80'>
-              {msgImages.map((url, index)=>(
-                <div key={index} onClick={()=>window.open(url)} className='cursor-pointer rounded'>
-                  <img src={url} alt='' className='h-full rounded-md'></img>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className='flex justify-center items-center'>
-           <button onClick={()=>logout()} className='absolute flex items-center bottom-5  transform-translate-x-1/2 bg-gradient-to-r from-purple-400 to-violet-600 text-white border-none text-sm font-light py-2 px-20 rounded-full cursor-pointer'>logout</button>
-           </div>
-    </div>
-  )
-}
 
-export default RightSideBar
+      <hr className="border-white/10 mx-6 my-4" />
+
+      {/* Media Section */}
+      <div className="px-6">
+        <h2 className="text-sm font-semibold text-white mb-2">Media</h2>
+        <div className="grid grid-cols-3 gap-2 max-h-52 overflow-y-auto">
+          {msgImages.length > 0 ? (
+            msgImages.map((url, index) => (
+              <div
+                key={index}
+                onClick={() => window.open(url, '_blank')}
+                className="cursor-pointer transition-transform duration-200 hover:scale-105"
+              >
+                <img
+                  src={url}
+                  alt={`media-${index}`}
+                  className="w-full h-20 object-cover rounded-md border border-gray-600"
+                />
+              </div>
+            ))
+          ) : (
+            <p className="col-span-3 text-xs text-gray-500">No media shared yet.</p>
+          )}
+        </div>
+      </div>
+
+      {/* Logout */}
+      <div className="flex justify-center mt-8 mb-5">
+        <button
+          onClick={logout}
+          className="bg-gradient-to-r from-purple-500 to-violet-600 text-white text-sm px-8 py-2 rounded-full shadow-md hover:shadow-lg transition duration-200"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default RightSideBar;

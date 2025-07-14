@@ -1,104 +1,138 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { ItemContext } from "../../context/ItemContext";
+import { useNavigate } from "react-router-dom";
 
-const Recieve = () => {
-  const [code, setCode] = React.useState("");
-  const [item, setItem] = React.useState("");
-  const [location, setLocation] = React.useState("");
+const Receive = () => {
+  const [code, setCode] = useState("");
+  const [item, setItem] = useState("");
+  const [location, setLocation] = useState("");
+  const [collectionMethod, setCollectionMethod] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const {recieveItem}= useContext(ItemContext)
+  const navigate=useNavigate();
+  const { recieveItem } = useContext(ItemContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    const result = await recieveItem({ code });
 
-    const result=await recieveItem({code});
-    if(result){
-    setItem(result.item);
-    setLocation(result.location);
+    if (result) {
+      setItem(result.item);
+      setLocation(result.location);
+      setCollectionMethod(result.collectionMethod || "");
+    } else {
+      setItem("");
+      setLocation("");
+      setCollectionMethod("");
+      alert("Invalid code or no data found.");
     }
-    console.log("backend",result);
-    console.log("item",result.item.item);
+    setLoading(false);
   };
+    const goBack=()=>{
+    navigate('/dashboard');
+  }
+
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen p-10 text-center backdrop-blur-md bg-gradient-to-br from-[#0f0f0f] to-[#2c003e] text-white font-sans">
-      <h2 className="text-4xl text-[#bb86fc] mb-2">Receive</h2>
-      <p className="text-base text-[#e0e0e0] mb-5">
-        Welcome to your Receive page!
-      </p>
-      <p className="text-base text-[#e0e0e0] mb-6">
-        Here you can manage your account and settings.
-      </p>
-
-      <form
-        onSubmit={handleSubmit}
-        method="POST"
-        className="bg-white/5 p-8 rounded-2xl shadow-[0_8px_20px_rgba(0,0,0,0.4)] max-w-md w-full"
-      >
-        <div className="mb-5 text-left">
-          <label
-            htmlFor="code"
-            className="block mb-2 font-medium text-[#bb86fc]"
-          >
-            Enter the code:
-          </label>
-          <input
-            type="text"
-            id="code"
-            placeholder="Enter the code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            required
-            className="w-full p-3 rounded-lg bg-white/10 text-white text-base focus:outline-none focus:bg-white/15"
-          />
-        </div>
-
+    <div className="border w-full h-screen sm:px-[15%] sm:py-[5%]">
+      <div className="backdrop-blur-xl border-2 border-gray-600 rounded-2xl overflow-hidden h-full grid grid-cols-1 relative">
         <button
-          type="submit"
-          className="w-full py-3 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-[#bb86fc] to-[#7a1fa2] cursor-pointer transition-transform duration-200 shadow-[0_4px_15px_rgba(187,134,252,0.4)] hover:scale-105 hover:shadow-[0_6px_25px_rgba(187,134,252,0.6)]"
-        >
-          Submit
-        </button>
-
-        {/* Display results only if available */}
-        {item && (
-          <p className="mt-6 text-lg text-[#e0e0e0]">
-            <strong>Item:</strong> {item}
+        onClick={goBack}
+        className="absolute top-4 left-4 px-3 py-1 rounded-md bg-[#bb86fc] text-white font-semibold
+                   shadow-md hover:bg-[#9a63d6] transition-colors duration-200 focus:outline-none"
+      >
+        &larr; Back
+      </button>
+        <main className="flex flex-col items-center justify-center bg-gradient-to-br from-[#1a1a2e] to-[#16213e] p-10 text-white font-sans overflow-auto max-w-md mx-auto rounded-3xl shadow-lg shadow-purple-600/40">
+          <h2 className="text-4xl mb-4 font-semibold text-[#bb86fc]">Receive</h2>
+          <p className="text-base mb-5 text-[#d0d0d0] text-center">
+            Welcome to your Receive page! Manage your account and settings here.
           </p>
-        )}
-        {location && (
-          <p className="mt-2 text-lg text-[#e0e0e0]">
-            <strong>Location:</strong> {location}
-          </p>
-        )}
-          <div className="mb-6 text-left">
-  <p className="text-lg font-medium text-[#bb86fc] mb-2">Collection Method</p>
-  
-  <div className="flex items-center mb-2">
-    <input
-      type="radio"
-      id="home"
-      name="collectionMethod"
-      value="home"
-      className="mr-2 accent-[#bb86fc]"
-    />
-    <label htmlFor="home" className="text-white">Deliver to home</label>
-  </div>
 
-  <div className="flex items-center">
-    <input
-      type="radio"
-      id="center"
-      name="collectionMethod"
-      value="center"
-      className="mr-2 accent-[#bb86fc]"
-    />
-    <label htmlFor="center" className="text-white">Will come to delivery center</label>
-  </div>
-</div>
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white/5 p-8 rounded-2xl shadow-[0_8px_20px_rgba(0,0,0,0.4)] w-full"
+          >
+            <div className="mb-5 text-left">
+              <label htmlFor="code" className="block mb-2 font-medium text-[#bb86fc]">
+                Enter the code:
+              </label>
+              <input
+                type="text"
+                id="code"
+                placeholder="Enter the code"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                required
+                className="w-full p-3 rounded-lg bg-white/10 text-white text-base focus:outline-none focus:bg-white/15"
+              />
+            </div>
 
-      </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full py-3 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-[#bb86fc] to-[#7a1fa2] cursor-pointer transition-transform duration-200 shadow-[0_4px_15px_rgba(187,134,252,0.4)] ${
+                loading ? "opacity-50 cursor-not-allowed" : "hover:scale-105 hover:shadow-[0_6px_25px_rgba(187,134,252,0.6)]"
+              }`}
+            >
+              {loading ? "Submitting..." : "Submit"}
+            </button>
+
+            {/* Display received details if available */}
+            {(item || location) && (
+              <div className="mt-8 text-left text-[#e0e0e0]">
+                {item && (
+                  <p className="text-lg mb-2">
+                    <strong>Item:</strong> {item}
+                  </p>
+                )}
+                {location && (
+                  <p className="text-lg mb-2">
+                    <strong>Location:</strong> {location}
+                  </p>
+                )}
+
+                <div className="mb-6">
+                  <p className="text-lg font-medium text-[#bb86fc] mb-2">Collection Method</p>
+
+                  <div className="flex items-center mb-2">
+                    <input
+                      type="radio"
+                      id="home"
+                      name="collectionMethod"
+                      value="home"
+                      checked={collectionMethod === "home"}
+                      readOnly
+                      className="mr-2 accent-[#bb86fc]"
+                    />
+                    <label htmlFor="home" className="text-white">
+                      Deliver to home
+                    </label>
+                  </div>
+
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      id="center"
+                      name="collectionMethod"
+                      value="center"
+                      checked={collectionMethod === "center"}
+                      readOnly
+                      className="mr-2 accent-[#bb86fc]"
+                    />
+                    <label htmlFor="center" className="text-white">
+                      Will come to delivery center
+                    </label>
+                  </div>
+                </div>
+              </div>
+            )}
+          </form>
+        </main>
+      </div>
     </div>
   );
 };
 
-export default Recieve;
+export default Receive;

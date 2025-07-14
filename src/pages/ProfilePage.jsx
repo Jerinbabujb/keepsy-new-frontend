@@ -8,7 +8,7 @@ const ProfilePage = () => {
   const {authUser, updateProfile}= useContext(AuthContext);
   const [selectedImg,setSelectedImg]=useState('');
   const navigate=useNavigate();
-  const [name,setName]=useState(authUser.fullName);
+  const [name,setName]=useState(authUser.username);
   const [bio,setBio]= useState(authUser.bio);
   
   const handleSubmit=async(e)=>{
@@ -42,7 +42,7 @@ const ProfilePage = () => {
           <textarea placeholder='write profile bio' onChange={(e)=>setBio(e.target.value)} value={bio} className='p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500' rows={4} required/>
           <button type='submit' className='bg-gradient-to-r from-purple-400 to-violet-600 text-white p-2 rounded-full text-lg cursor-pointer'> save</button>
            </form>
-          <img src={authUser?.profilePic ||assets.logo} alt='' className={`max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10 ${selectedImg && 'rounded-full'}`}/>
+          <img src={authUser?.profilePic ||'/assets/keepsy'} alt='' className={`max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10 ${selectedImg && 'rounded-full'}`}/>
        
       </div>
     </div>

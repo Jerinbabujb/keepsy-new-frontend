@@ -1,55 +1,64 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Dashboard = () => {
-    const { authUser } = useContext(AuthContext);
-    const navigate = useNavigate();
+  const { authUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const send = () => {
-        navigate('/send');
-    };
+  const send = () => navigate("/send");
+  const receive = () => navigate("/recieve");
+  const goBack = () => navigate("/");
 
-    const receive = () => {
-        navigate('/recieve');
-    };
+  return (
+    <div className="border w-full h-screen sm:px-[15%] sm:py-[5%] relative">
+      {/* Back button at top-left */}
+      
 
-    return (
-        <div className='w-full h-screen bg-gradient-to-br from-[#0f0f0f] to-[#2c003e] font-sans text-black'>
-            <div className='flex flex-col items-center justify-center h-full text-center backdrop-blur-xl'>
-                <h2 className="text-4xl mb-2 text-[#bb86fc]">Dashboard</h2>
-                <p className="text-lg mb-5 text-[#e0e0e0]">
-                    Welcome to your dashboard! {authUser?.username}
-                </p>
-                <p className="text-lg mb-5 text-[#e0e0e0]">
-                    Here you can manage your account and settings.
-                </p>
-                <button
-                    onClick={send}
-                    className="w-40 h-40 my-5 rounded-full border-none text-white font-bold text-lg cursor-pointer
-                    bg-[radial-gradient(circle_at_30%_30%,rgba(187,134,252,0.6),rgba(106,13,173,0.3))]
-                    shadow-[inset_-5px_-5px_10px_rgba(255,255,255,0.1),inset_5px_5px_15px_rgba(0,0,0,0.3),0_8px_20px_rgba(0,0,0,0.5)]
-                    backdrop-blur-md transition-transform duration-300 ease-in-out hover:scale-110
-                    hover:shadow-[inset_-4px_-4px_10px_rgba(255,255,255,0.2),inset_6px_6px_15px_rgba(0,0,0,0.4),0_10px_30px_rgba(0,0,0,0.6)]
-                    hover:bg-[radial-gradient(circle_at_25%_25%,rgba(187,134,252,0.7),rgba(106,13,173,0.4))]"
-                >
-                    Send
-                </button>
-                <button
-                    onClick={receive}
-                    className="w-40 h-40 my-5 rounded-full border-none text-white font-bold text-lg cursor-pointer
-                    bg-[radial-gradient(circle_at_30%_30%,rgba(187,134,252,0.6),rgba(106,13,173,0.3))]
-                    shadow-[inset_-5px_-5px_10px_rgba(255,255,255,0.1),inset_5px_5px_15px_rgba(0,0,0,0.3),0_8px_20px_rgba(0,0,0,0.5)]
-                    backdrop-blur-md transition-transform duration-300 ease-in-out hover:scale-110
-                    hover:shadow-[inset_-4px_-4px_10px_rgba(255,255,255,0.2),inset_6px_6px_15px_rgba(0,0,0,0.4),0_10px_30px_rgba(0,0,0,0.6)]
-                    hover:bg-[radial-gradient(circle_at_25%_25%,rgba(187,134,252,0.7),rgba(106,13,173,0.4))]"
-                >
-                    Receive
-                </button>
-            </div>
-        </div>
-    );
+      <div className="backdrop-blur-xl border-2 border-gray-600 rounded-2xl overflow-hidden h-full grid grid-cols-1 relative">
+        <button
+        onClick={goBack}
+        className="absolute top-4 left-4 px-3 py-1 rounded-md bg-[#bb86fc] text-white font-semibold
+                   shadow-md hover:bg-[#9a63d6] transition-colors duration-200 focus:outline-none"
+      >
+        &larr; Back
+      </button>
+        <main className="w-full h-full bg-gradient-to-br from-[#1a1a2e] to-[#16213e] font-sans text-white flex flex-col items-center justify-center text-center p-10">
+          <h2 className="text-4xl mb-2 text-[#bb86fc] font-semibold"></h2>
+          <p className="text-lg mb-5 text-[#d0d0d0]">
+             <strong>{authUser?.username}</strong>!
+          </p>
+          <p className="text-lg mb-5 text-[#d0d0d0]">
+            
+          </p>
+          <div className="flex gap-8 mt-6 flex-wrap justify-center">
+            <button
+              onClick={send}
+              className="w-44 h-44 rounded-3xl bg-gradient-to-tr from-purple-600 to-purple-400
+                shadow-lg shadow-purple-500/50
+                text-white font-semibold text-xl
+                transition-transform duration-300 ease-in-out
+                hover:scale-105 hover:shadow-purple-700/80
+                focus:outline-none focus:ring-4 focus:ring-purple-300"
+            >
+              Send
+            </button>
+            <button
+              onClick={receive}
+              className="w-44 h-44 rounded-3xl bg-gradient-to-tr from-blue-600 to-blue-400
+                shadow-lg shadow-blue-500/50
+                text-white font-semibold text-xl
+                transition-transform duration-300 ease-in-out
+                hover:scale-105 hover:shadow-blue-700/80
+                focus:outline-none focus:ring-4 focus:ring-blue-300"
+            >
+              Receive
+            </button>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
