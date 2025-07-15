@@ -41,6 +41,32 @@ const Send = () => {
           <p className="text-base mb-5 text-[#d0d0d0] text-center">
             Welcome to your Send page! Manage your account and settings here.
           </p>
+        <div className="mb-6 text-center">
+  <p className="text-lg font-semibold text-[#bb86fc] mb-3">You can send from:</p>
+  <div className="flex flex-wrap gap-4 justify-center">
+    <button
+      type="button"
+      className="px-5 py-2 cursor-pointer rounded-full bg-purple-700 text-white font-medium shadow-md
+                 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+    >
+      azn
+    </button>
+    <button
+      type="button"
+      className="px-5 py-2 rounded-full cursor-pointer bg-purple-700 text-white font-medium shadow-md
+                 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+    >
+      flp
+    </button>
+    <button
+      type="button"
+      className="px-5 py-2 rounded-full cursor-pointer bg-purple-700 text-white font-medium shadow-md
+                 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+    >
+      myn
+    </button>
+  </div>
+</div>
 
           <form
             onSubmit={handleSubmit}
