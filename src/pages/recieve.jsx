@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ItemContext } from "../../context/ItemContext";
 import { useNavigate } from "react-router-dom";
+import RecieverCollectionForm from "../components/RecieverCollectionForm";
 
 const Receive = () => {
   const [code, setCode] = useState("");
@@ -134,66 +135,7 @@ const Receive = () => {
             )}
           </form>
         </main>):(
-       <main className="flex flex-col items-center justify-center bg-gradient-to-br from-[#1a1a2e] to-[#16213e] p-10 text-white font-sans overflow-auto max-w-lg mx-auto">
-  <h2 className="text-4xl mb-4 font-semibold text-[#bb86fc]">Delivery Details</h2>
-  <p className="text-base mb-5 text-[#d0d0d0] text-center">
-    Please provide your deliver information below.
-  </p>
-
-  <form className="bg-white/5 p-8 rounded-3xl shadow-lg shadow-purple-600/40 w-full">
-    <div className="mb-6 text-left">
-      <label className="block mb-2 font-medium text-[#bb86fc]">Address:</label>
-      <input
-        type="text"
-        placeholder="Enter your address"
-        required
-        className="w-full p-3 rounded-xl bg-white/10 text-white text-base focus:outline-none focus:bg-white/20 transition"
-      />
-    </div>
-
-    <div className="mb-6 text-left">
-      <label className="block mb-2 font-medium text-[#bb86fc]">Phone Number:</label>
-      <input
-        type="number"
-        placeholder="Enter your number"
-        required
-        className="w-full p-3 rounded-xl bg-white/10 text-white text-base focus:outline-none focus:bg-white/20 transition"
-      />
-    </div>
-
-    <div className="mb-6 text-left">
-      <label className="block mb-2 font-medium text-[#bb86fc]">Email:</label>
-      <input
-        type="email"
-        placeholder="Enter your email address"
-        required
-        className="w-full p-3 rounded-xl bg-white/10 text-white text-base focus:outline-none focus:bg-white/20 transition"
-      />
-    </div>
-
-    <div className="mb-6 text-left">
-      <label className="block mb-2 font-medium text-[#bb86fc]">Available at home Dates:</label>
-      <textarea
-        placeholder="Enter the dates for pickup"
-        required
-        rows={3}
-        className="w-full p-3 rounded-xl bg-white/10 text-white text-base focus:outline-none focus:bg-white/20 transition resize-none"
-      />
-    </div>
-
-    <button
-      type="submit"
-      className="w-full py-4 rounded-3xl bg-gradient-to-tr from-purple-600 to-purple-400
-        shadow-lg shadow-purple-500/50
-        text-white font-semibold text-xl
-        transition-transform duration-300 ease-in-out
-        hover:scale-105 hover:shadow-purple-700/80
-        focus:outline-none focus:ring-4 focus:ring-purple-300"
-    >
-      Submit
-    </button>
-  </form>
-</main>
+<RecieverCollectionForm/>
 
         )}
       </div>

@@ -50,9 +50,49 @@ const {axios} =useContext(AuthContext);
 
     }
 
+    const senderCollection=async(details)=>{
+        try{
+            const response= await axios.post("/api/items/send-form",details);
+            const data= response.data;
+
+            if(data.success){
+                toast.success(data.message);
+            }
+            else{
+                toast.error(data.message);
+            }
+
+        }
+        catch(error){
+             toast.error(error.message);
+        }
+    }
+
+        const recieverCollection=async(details)=>{
+        try{
+            const response= await axios.post("/api/items/reciever-form",details);
+            const data= response.data;
+
+            if(data.success){
+                toast.success(data.message);
+            }
+            else{
+                toast.error(data.message);
+            }
+
+        }
+        catch(error){
+             toast.error(error.message);
+        }
+    }
+
     const value={
         sendItem,
-        recieveItem
+        recieveItem,
+        sendItem,
+        senderCollection,
+        recieverCollection
+
     }
     return(
     <ItemContext.Provider value={value}>
